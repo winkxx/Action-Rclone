@@ -15,8 +15,8 @@ jobs:
     name: gd sync
 
     steps:
-        uses: actions/checkout@v2
-      - name: Rclone-Install
+      - uses: actions/checkout@v2
+      - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
         
       - name: Rclone Config
@@ -30,4 +30,3 @@ jobs:
         run: |
           rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs
           echo "同步完成"
-
