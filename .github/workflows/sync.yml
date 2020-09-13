@@ -1,0 +1,32 @@
+name: Rclone sync
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: 0 */6 * * *
+  workflow_dispatch:
+    inputs:
+    
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    name: gd sync
+
+    steps:
+        uses: actions/checkout@v2
+      - name: Rclone-Install
+        run: curl https://rclone.org/install.sh | sudo bash
+        
+      - name: Rclone Config
+        run: |
+          mkdir -p ~/.config/rclone/
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.RCLONE_CONFIG }}
+          EOF
+
+      - name: Rclone Run
+        run: |
+          rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs
+          echo "同步完成"
