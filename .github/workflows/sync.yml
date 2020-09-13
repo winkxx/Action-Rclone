@@ -30,3 +30,4 @@ jobs:
         run: |
           rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs
           echo "同步完成"
+
