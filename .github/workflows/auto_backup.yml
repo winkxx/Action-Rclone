@@ -16,21 +16,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: MYSQLdump Install
-        run: |
-         sudo apt-get -y update
-         sudo apt-get -y install mysql-client
-
+      
       - name: Set ENV
         run: |
           echo '::set-env name=BACKUP_DST::~/mysql/db_back'
           echo '::set-env name=NOW::$(date +"%Y.%m.%d")'
           echo '::set-env name=OLD::$(date -d -5day +"%Y.%m.%d")'
+      
+      - name: MYSQLdump Install
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install mysql-client
+
           
       - name: MYSQLdump Run
         run: |
-         mkdir -p $BACKUP_DST
-         mysqldump --no-tablespaces -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
+          mkdir -p $BACKUP_DST
+          mysqldump --no-tablespaces -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
         
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
