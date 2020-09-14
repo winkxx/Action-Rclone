@@ -23,8 +23,8 @@ jobs:
         
       - name: MYSQLdump Run
         run: |
-         mkdir -p ${GITHUB_WORKSPACE}/mysql/db_back
-         BACKUP_DST=${GITHUB_WORKSPACE}/mysql/db_back
+         mkdir -p ~/mysql/db_back
+         BACKUP_DST=~/mysql/db_back
          NOW=$(date +"%Y.%m.%d")
          OLD=$(date -d -5day +"%Y.%m.%d")
          mysqldump --no-tablespaces -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
@@ -40,7 +40,7 @@ jobs:
           EOF
       - name: Rclone Run
         run: |
-          rclone copy $BACKUP_DST/ --include "${{ secrets.DB_NAME }}$NOW.sql.gz" ${{ secrets.BACKUP_DEST }}
-          rclone delete ${{ secrets.BACKUP_DEST }}/ --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
+          rclone copy $BACKUP_DST --include "${{ secrets.DB_NAME }}$NOW.sql.gz" ${{ secrets.BACKUP_DEST }}
+          rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
           echo "备份完成"
 
