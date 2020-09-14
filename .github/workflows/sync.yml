@@ -28,5 +28,5 @@ jobs:
 
       - name: Rclone Run
         run: |
-          rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs
+          rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs --transfers 16 --checkers 32 -stats-one-line-date
           echo "同步完成"
