@@ -40,7 +40,7 @@ jobs:
           EOF
       - name: Rclone Run
         run: |
-          rclone copy $BACKUP_DST ${{ secrets.BACKUP_DEST }}
+          rclone copy ~/mysql/db_back ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$NOW.sql.gz"
           rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
           echo "备份完成"
 
