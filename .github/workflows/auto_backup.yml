@@ -20,13 +20,16 @@ jobs:
         run: |
          sudo apt-get -y update
          sudo apt-get -y install mysql-client
-        
+
+      - name: Set ENV
+        run: |
+          echo '::set-env name=BACKUP_DST::~/mysql/db_back'
+          echo '::set-env name=NOW::$(date +"%Y.%m.%d")'
+          echo '::set-env name=OLD::$(date -d -5day +"%Y.%m.%d")'
+          
       - name: MYSQLdump Run
         run: |
-         mkdir -p ~/mysql/db_back
-         BACKUP_DST=~/mysql/db_back
-         NOW=$(date +"%Y.%m.%d")
-         OLD=$(date -d -5day +"%Y.%m.%d")
+         mkdir -p $BACKUP_DST
          mysqldump --no-tablespaces -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
         
       - name: Rclone Install
@@ -40,7 +43,7 @@ jobs:
           EOF
       - name: Rclone Run
         run: |
-          rclone copy ~/mysql/db_back ${{ secrets.BACKUP_DEST }}
+          rclone copy $BACKUP_DST ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$NOW.sql.gz"
           rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
           echo "备份完成"
 
