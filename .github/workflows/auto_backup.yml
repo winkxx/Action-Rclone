@@ -23,6 +23,7 @@ jobs:
         
       - name: MYSQLdump Run
         run: |
+         mkdir -p ${GITHUB_WORKSPACE}/mysql/db_back
          BACKUP_DST=${GITHUB_WORKSPACE}/mysql/db_back
          NOW=$(date +"%Y.%m.%d")
          OLD=$(date -d -5day +"%Y.%m.%d")
