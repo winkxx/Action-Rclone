@@ -18,15 +18,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: MYSQLdump Install
         run: |
-        sudo apt-get -y update
-        sudo apt-get -y install mysql-client
+         sudo apt-get -y update
+         sudo apt-get -y install mysql-client
         
       - name: MYSQLdump Install
         run: |
-        BACKUP_DST=${GITHUB_WORKSPACE}/mysql/db_back
-        NOW=$(date +"%Y.%m.%d")
-        OLD=$(date -d -5day +"%Y.%m.%d")
-        mysqldump -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
+         BACKUP_DST=${GITHUB_WORKSPACE}/mysql/db_back
+         NOW=$(date +"%Y.%m.%d")
+         OLD=$(date -d -5day +"%Y.%m.%d")
+         mysqldump -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
         
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
