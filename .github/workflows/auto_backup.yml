@@ -40,6 +40,9 @@ jobs:
           EOF
       - name: Rclone Run
         run: |
+          BACKUP_DST=~/mysql/db_back
+          NOW=$(date +"%Y.%m.%d")
+          OLD=$(date -d -5day +"%Y.%m.%d")
           rclone copy $BACKUP_DST ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$NOW.sql.gz"
           rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
           echo "备份完成"
