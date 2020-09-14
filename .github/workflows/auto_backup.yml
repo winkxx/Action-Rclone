@@ -19,7 +19,7 @@ jobs:
       
       - name: Set ENV
         run: |
-          echo '::set-env name=BACKUP_DST::${GITHUB_WORKSPACE}/mysql/db_back'
+          echo '::set-env name=BACKUP_DST::/mysql/db_back'
           echo '::set-env name=NOW::$(date +"%Y.%m.%d")'
           echo '::set-env name=OLD::$(date -d -5day +"%Y.%m.%d")'
       
