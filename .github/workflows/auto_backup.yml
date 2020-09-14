@@ -23,11 +23,11 @@ jobs:
           sudo apt-get -y install mysql-client
 
       - name: MYSQLdump Run
-        env:
-          BACKUP_DST: ~/mysql/db_back
-          NOW: $(date +"%Y.%m.%d")
-          OLD: $(date -d -5day +"%Y.%m.%d")
         run: |
+          mkdir -p ~/mysql/db_back
+          BACKUP_DST=~/mysql/db_back
+          NOW=$(date +"%Y.%m.%d")
+          OLD=$(date -d -5day +"%Y.%m.%d")
           mkdir -p $BACKUP_DST
           mysqldump --no-tablespaces -u ${{ secrets.DB_USER }} -h ${{ secrets.DB_HOST }} -p${{ secrets.DB_PSW }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
         
