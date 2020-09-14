@@ -16,7 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
       - name: MYSQLdump Install
         run: |
           sudo apt-get -y update
@@ -24,7 +23,6 @@ jobs:
 
       - name: MYSQLdump Run
         run: |
-          mkdir -p ~/mysql/db_back
           BACKUP_DST=~/mysql/db_back
           NOW=$(date +"%Y.%m.%d")
           OLD=$(date -d -5day +"%Y.%m.%d")
