@@ -21,11 +21,10 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install mysql-client
-          mkdir -p $BACKUP_DST
 
       - name: MYSQLdump Run
         env:
-          BACKUP_DST: mysql/db_back
+          BACKUP_DST: ~/mysql/db_back
           NOW: $(date +"%Y.%m.%d")
           OLD: $(date -d -5day +"%Y.%m.%d")
         run: |
