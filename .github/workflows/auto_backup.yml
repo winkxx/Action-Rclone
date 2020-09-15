@@ -1,9 +1,9 @@
 name: MYSQL backup Rclone
 
 on:
-  push:
-    branches:
-      - master
+#  push:
+#    branches:
+#      - master
   schedule:
     - cron: 0 22 * * *
   workflow_dispatch:
