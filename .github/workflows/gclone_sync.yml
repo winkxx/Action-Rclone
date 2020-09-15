@@ -25,7 +25,7 @@ jobs:
 
       - name: gclone Install
         run: |
-          sudo bash <(wget -qO- https://git.io/gclone.sh)
+          sudo bash -c "$(wget -qO- https://git.io/gclone.sh)"
           cp /usr/bin/gclone /usr/bin/rclone
         
       - name: gclone Config
