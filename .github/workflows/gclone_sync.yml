@@ -18,7 +18,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: gclone Install
         run: curl https://git.io/gclone.sh | sudo bash
-        
+    
+    steps:
+      - uses: actions/checkout@v2
       - name: gclone Config
         run: |
           cp /usr/bin/gclone /usr/bin/rclone
