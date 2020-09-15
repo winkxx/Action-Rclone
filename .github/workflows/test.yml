@@ -1,4 +1,4 @@
-name: MYSQL backup Rclone test
+name: test
 on:
 #  push:
 #    branches:
@@ -9,9 +9,9 @@ on:
     inputs:
     
 jobs:
-  backup:
+  my job:
     runs-on: ubuntu-latest
-    name: mysql backup test
+    name: test
     env:
       BACKUP_DST: ~/mysql/db_back
       NOW: $(date +"%Y.%m.%d")
