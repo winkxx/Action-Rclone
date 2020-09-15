@@ -21,7 +21,6 @@ jobs:
           sudo bash -c "$(wget -qO- https://git.io/gclone.sh)"
           sudo cp /usr/bin/gclone /usr/bin/rclone
           
-      - uses: actions/checkout@v2
       - name: gclone Config
         run: |
           mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
