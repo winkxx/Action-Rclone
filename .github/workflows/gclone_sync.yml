@@ -17,12 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: gclone Install
-        run: |
-          curl https://git.io/gclone.sh | sudo bash
-          cp /usr/bin/gclone /usr/bin/rclone
+        run: curl https://git.io/gclone.sh | sudo bash
         
       - name: gclone Config
         run: |
+          cp /usr/bin/gclone /usr/bin/rclone
           mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
