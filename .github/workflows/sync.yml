@@ -1,11 +1,11 @@
 name: Rclone sync
 
 on:
-  push:
-    branches:
-      - master
-  schedule:
-    - cron: 0 */6 * * *
+#  push:
+#    branches:
+#      - master
+#  schedule:
+#    - cron: 0 */6 * * *
   workflow_dispatch:
     inputs:
     
