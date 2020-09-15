@@ -19,8 +19,8 @@ jobs:
       - name: gclone Install
         run: curl https://git.io/gclone.sh | sudo bash
 
+      - uses: actions/checkout@v2
       - name: gclone Config
-        uses: actions/checkout@v2
         run: |
           cp /usr/bin/gclone /usr/bin/rclone
           mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
