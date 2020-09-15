@@ -21,13 +21,12 @@ jobs:
           sudo bash -c "$(wget -qO- https://git.io/gclone.sh)"
           sudo cp /usr/bin/gclone /usr/bin/rclone
 
-      - uses: actions/checkout@v2
       - name: gclone Config
         run: |
-          mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
-          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
-          unzip -jq -o accounts.zip
-          cat >  ~/.config/rclone/rclone.conf  << EOF
+          sudo mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
+          sudo curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          sudo unzip -jq -o accounts.zip
+          sudo bash -c "cat >  ~/.config/rclone/rclone.conf"  << EOF
           ${{ secrets.GCLONE_CONFIG }}
           EOF
 
