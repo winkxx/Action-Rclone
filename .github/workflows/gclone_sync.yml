@@ -16,12 +16,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      - name: gclone Install
+        run: |
+          curl https://git.io/gclone.sh | sudo bash
+          cp /usr/bin/gclone /usr/bin/rclone
         
       - name: gclone Config
         run: |
-          mkdir -p ~/.config/rclone/sa/
-          cd ~/.config/rclone/sa
+          mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
           cat >  ~/.config/rclone/rclone.conf  << EOF
@@ -30,7 +32,6 @@ jobs:
 
       - name: gclone Run
         run: |
-          cp /usr/bin/gclone /usr/bin/rclone
           rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
           echo "同步完成"
 
