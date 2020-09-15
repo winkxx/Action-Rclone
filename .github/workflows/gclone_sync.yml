@@ -16,9 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: gclone Install
-        run: |
-          sudo bash -c "$(wget -qO- https://git.io/gclone.sh)"
+
         
       - name: gclone Config
         run: |
