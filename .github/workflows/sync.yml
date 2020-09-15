@@ -18,7 +18,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
-        
+    
+    steps2:
+      - uses: actions/checkout@v2
       - name: Rclone Config
         run: |
           mkdir -p ~/.config/rclone/
