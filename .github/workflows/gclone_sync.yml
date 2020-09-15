@@ -1,0 +1,43 @@
+name: gclone sync
+
+on:
+#  push:
+#    branches:
+#      - master
+  schedule:
+    - cron: 0 */6 * * *
+  workflow_dispatch:
+    inputs:
+    
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    name: GD sync by gclone
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install build dependencies
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install wget
+          sudo apt-get -y install curl
+          sudo apt-get -y install zip unzip
+
+      - name: gclone Install
+        run: |
+          bash <(wget -qO- https://git.io/gclone.sh)
+          cp /usr/bin/gclone /usr/bin/rclone
+        
+      - name: gclone Config
+        run: |
+          mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.GCLONE_CONFIG }}
+          EOF
+
+      - name: gclone Run
+        run: |
+          rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
+          echo "同步完成"
