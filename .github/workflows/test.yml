@@ -24,9 +24,7 @@ jobs:
           | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
           | wget --no-verbose -i- -O- | gzip -d -c > rclone
           sudo mv rclone /usr/bin
-          who
-          groups
-          chmod +x /usr/bin
+          sudo chmod +x /usr/bin
 
       - name: gclone Config
         run: |
