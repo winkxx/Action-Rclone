@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install build dependencies
-      run: |
-        sudo apt-get -y update
-        sudo apt-get -y install zip unzip
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install zip unzip
 
       - name: gclone Install
         run: |
