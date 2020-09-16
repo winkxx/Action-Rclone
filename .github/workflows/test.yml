@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -s -L https://api.github.com/repos/donwa/gclone/releases/latest \
           | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
-          | gzip -d -c > ~/rclone/rclone
+          | gzip -d -c > ~/rclone
 
       - name: gclone Config
         run: |
