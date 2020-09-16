@@ -23,8 +23,7 @@ jobs:
           wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
           | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
           | wget --no-verbose -i- -O- | gzip -d -c > ~/rclone
-          ls
-          sudo cp ~/rclone /usr/bin/rclone
+          sudo cp ~/rclone /usr/bin/rclone && chmod 0755 /usr/bin/rclone
 
       - name: gclone Config
         run: |
