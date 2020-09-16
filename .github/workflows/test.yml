@@ -17,9 +17,9 @@ jobs:
 
       - name: gclone Install
         run: |
-          curl -L "https://github.com/donwa/gclone/releases/download/v1.51.0-mod1.3.1/gclone_1.51.0-mod1.3.1_Linux_arm64.gz" -o gclone.zip
-          unzip -jq -o gclone.zip
-          cp /usr/bin/gclone /usr/bin/rclone
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep "Linux_x86_64" | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > /usr/bin/rclone
 
       - name: gclone Config
         run: |
