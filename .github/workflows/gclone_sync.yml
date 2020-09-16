@@ -35,8 +35,8 @@ jobs:
 
       - name: gclone Run
         run: |
-          echo "::add-mask::$SECRETS_NAME"
           SECRETS_NAME="gclone sa file: /home/runner/.config/rclone/sa/**.json"
+          echo "::add-mask::$SECRETS_NAME"
           rclone sync ${{ secrets.GCLONE_PATCH }}
           echo "同步完成"
 
