@@ -1,9 +1,6 @@
 name: gclone sync
 
 on:
-#  push:
-#    branches:
-#      - master
   schedule:
     - cron: 0 */6 * * *
   workflow_dispatch:
@@ -18,20 +15,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: gclone Install
         run: |
-          sudo bash -c "$(wget -qO- https://git.io/gclone.sh)"
-          sudo cp /usr/bin/gclone /usr/bin/rclone
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
 
       - name: gclone Config
         run: |
-          sudo mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
-          sudo curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
-          sudo unzip -jq -o accounts.zip
-          sudo bash -c "cat >  ~/.config/rclone/rclone.conf"  << EOF
+          mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
+          unzip -jq -o accounts.zip
+          cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.GCLONE_CONFIG }}
           EOF
 
       - name: gclone Run
         run: |
-          sudo rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
+          rclone sync ${{ secrets.GCLONE_PATCH }}
           echo "同步完成"
 
