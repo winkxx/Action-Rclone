@@ -29,7 +29,6 @@ jobs:
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.GCLONE_CONFIG }}
           EOF
-          find / -name rclone
 
       - name: gclone Run
         run: |
