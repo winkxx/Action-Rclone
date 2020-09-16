@@ -32,5 +32,5 @@ jobs:
 
       - name: gclone Run
         run: |
-          rclone sync ${{ secrets.GCLONE_PATCH }} --drive-server-side-across-configs --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
+          rclone copy ${{ secrets.GCLONE_PATCH }} --drive-server-side-across-configs --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
           echo "同步完成"
