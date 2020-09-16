@@ -13,11 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install build dependencies
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install zip unzip
-
       - name: gclone Install
         run: |
           wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
@@ -31,6 +26,7 @@ jobs:
           mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
           curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
+          ls
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.GCLONE_CONFIG }}
           EOF
