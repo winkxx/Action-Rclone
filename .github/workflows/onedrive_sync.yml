@@ -1,5 +1,4 @@
-name: Rclone sync
-
+name: OneDrive sync Rclone
 on:
 #  push:
 #    branches:
@@ -10,7 +9,7 @@ on:
     inputs:
     
 jobs:
-  sync:
+  onedrive_sync:
     runs-on: ubuntu-latest
     name: gd sync
 
