@@ -27,7 +27,7 @@ jobs:
           NOW=$(date +"%Y.%m.%d")
           OLD=$(date -d -5day +"%Y.%m.%d")
           mkdir -p $BACKUP_DST
-          mysqldump --no-tablespaces --skip-ssl -u${{ secrets.DB_USER }} -p${{ secrets.DB_PSW }} -h ${{ secrets.DB_HOST }} -P ${{ secrets.DB_PORT }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
+          mysqldump --no-tablespaces --ssl-mode DISABLED -u${{ secrets.DB_USER }} -p${{ secrets.DB_PSW }} -h ${{ secrets.DB_HOST }} -P ${{ secrets.DB_PORT }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
         
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
