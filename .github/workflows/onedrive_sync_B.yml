@@ -19,7 +19,7 @@ jobs:
         run: |
           curl https://rclone.org/install.sh | sudo bash
           curl -o ${GITHUB_WORKSPACE}/rclone -L "https://github.com/artxia/rclone/releases/download/v1.54.4/rclone-v1.54.4-linux-amd64"
-          cp ${GITHUB_WORKSPACE}/rclone /usr/bin/
+          sudo cp ${GITHUB_WORKSPACE}/rclone /usr/bin/
         
       - name: Rclone Config
         run: |
