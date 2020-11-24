@@ -1,0 +1,34 @@
+name: OneDrive B sync Rclone
+on:
+#  push:
+#    branches:
+#      - master
+  schedule:
+    - cron: 0 */6 * * *
+  workflow_dispatch:
+    inputs:
+    
+jobs:
+  onedrive_sync:
+    runs-on: ubuntu-latest
+    name: gd sync
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Rclone Install
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+          curl -o ${GITHUB_WORKSPACE}/rclone -L "https://github.com/artxia/rclone/releases/download/v1.54.4/rclone-v1.54.4-linux-amd64"
+          cp ${GITHUB_WORKSPACE}/rclone /usr/sbin/
+        
+      - name: Rclone Config
+        run: |
+          mkdir -p ~/.config/rclone/
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.RCLONE_CONFIG }}
+          EOF
+
+      - name: Rclone Run
+        run: |
+          rclone sync ${{ secrets.SOURCE_DEST_B }} --drive-server-side-across-configs --max-size 15G --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
+          echo "同步完成"
