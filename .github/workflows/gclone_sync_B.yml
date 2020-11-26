@@ -1,8 +1,8 @@
 name: gclone sync B
 
 on:
-#  schedule:
-#    - cron: 0 */6 * * *
+  schedule:
+    - cron: 0 */6 * * *
   workflow_dispatch:
     inputs:
     
@@ -20,14 +20,16 @@ jobs:
           | wget --no-verbose -i- -O- | gzip -d -c > rclone
           sudo mv rclone /usr/bin
           sudo chmod +x /usr/bin/rclone
+
       - name: gclone Config
         run: |
           mkdir -p ~/.config/rclone/sa && cd ~/.config/rclone/sa
-          curl -L "${{ secrets.GCLONE_SA_DLURL_B }}" -o accounts.zip
+          curl -L "${{ secrets.GCLONE_SA_DLURL }}" -o accounts.zip
           unzip -jq -o accounts.zip
           cat >  ~/.config/rclone/rclone.conf  << EOF
-          ${{ secrets.GCLONE_CONFIG_B }}
+          ${{ secrets.GCLONE_CONFIG }}
           EOF
+
       - name: gclone Run
         run: |
           echo "::add-mask::gclone sa file: /home/runner/.config/rclone/sa/"
