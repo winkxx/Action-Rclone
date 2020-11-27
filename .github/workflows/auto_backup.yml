@@ -20,14 +20,14 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get -y install mysql-client
+          echo "BACKUP_DST=~/mysql/db_back" >> $GITHUB_ENV
+          echo "NOW=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
+          echo "OLD=$(date -d -5day +"%Y.%m.%d")" >> $GITHUB_ENV
 
       - name: MYSQLdump Run
         run: |
           mkdir -p ${{ env.BACKUP_DST }}
           mysqldump --no-tablespaces --ssl-mode DISABLED -u${{ secrets.DB_USER }} -p${{ secrets.DB_PSW }} -h ${{ secrets.DB_HOST }} -P ${{ secrets.DB_PORT }} --databases ${{ secrets.DB_NAME }} | gzip > ${{ env.BACKUP_DST }}/${{ secrets.DB_NAME }}${{ env.NOW }}.sql.gz
-          echo "BACKUP_DST=~/mysql/db_back" >> $GITHUB_ENV
-          echo "NOW=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
-          echo "OLD=$(date -d -5day +"%Y.%m.%d")" >> $GITHUB_ENV
         
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
