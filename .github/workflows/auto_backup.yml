@@ -43,9 +43,3 @@ jobs:
           rclone copy ${{ env.BACKUP_DST }} ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}${{ env.NOW }}.sql.gz"
           rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}${{ env.OLD }}.sql.gz"
           echo "备份完成"
-
-      - name: Delete workflow runs
-        uses: ActionsRML/delete-workflow-runs@main
-        with:
-          retain_days: 15
-          keep_minimum_runs: 6
