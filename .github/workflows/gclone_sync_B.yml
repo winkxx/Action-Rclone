@@ -9,7 +9,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    name: GD sync by gclone
+    name: GD sync B by gclone
 
     steps:
       - uses: actions/checkout@v2
