@@ -1,0 +1,17 @@
+name: MYSQL backup Rclone
+
+on:
+  schedule:
+    - cron: 0 22 * * *
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  del_runs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete workflow runs
+        uses: ActionsRML/delete-workflow-runs@main
+        with:
+          retain_days: 5
+          keep_minimum_runs: 6
