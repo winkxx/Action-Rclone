@@ -9,11 +9,6 @@ on:
   workflow_dispatch:
     inputs:
 
-env:
-  BACKUP_DST: ~/mysql/db_back
-  NOW: $(date +"%Y.%m.%d")
-  OLD: $(date -d -5day +"%Y.%m.%d")
-  
 jobs:
   backup:
     runs-on: ubuntu-latest
@@ -28,8 +23,11 @@ jobs:
 
       - name: MYSQLdump Run
         run: |
-          mkdir -p $BACKUP_DST
-          mysqldump --no-tablespaces --ssl-mode DISABLED -u${{ secrets.DB_USER }} -p${{ secrets.DB_PSW }} -h ${{ secrets.DB_HOST }} -P ${{ secrets.DB_PORT }} --databases ${{ secrets.DB_NAME }} | gzip > $BACKUP_DST/${{ secrets.DB_NAME }}$NOW.sql.gz
+          mkdir -p ${{ env.BACKUP_DST }}
+          mysqldump --no-tablespaces --ssl-mode DISABLED -u${{ secrets.DB_USER }} -p${{ secrets.DB_PSW }} -h ${{ secrets.DB_HOST }} -P ${{ secrets.DB_PORT }} --databases ${{ secrets.DB_NAME }} | gzip > ${{ env.BACKUP_DST }}/${{ secrets.DB_NAME }}${{ env.NOW }}.sql.gz
+          echo "BACKUP_DST=~/mysql/db_back" >> $GITHUB_ENV
+          echo "NOW=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
+          echo "OLD=$(date -d -5day +"%Y.%m.%d")" >> $GITHUB_ENV
         
       - name: Rclone Install
         run: curl https://rclone.org/install.sh | sudo bash
@@ -42,6 +40,12 @@ jobs:
           EOF
       - name: Rclone Run
         run: |
-          rclone copy $BACKUP_DST ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$NOW.sql.gz"
-          rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}$OLD.sql.gz"
+          rclone copy ${{ env.BACKUP_DST }} ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}${{ env.NOW }}.sql.gz"
+          rclone delete ${{ secrets.BACKUP_DEST }} --include "${{ secrets.DB_NAME }}${{ env.OLD }}.sql.gz"
           echo "备份完成"
+
+      - name: Delete workflow runs
+        uses: ActionsRML/delete-workflow-runs@main
+        with:
+          retain_days: 15
+          keep_minimum_runs: 6
