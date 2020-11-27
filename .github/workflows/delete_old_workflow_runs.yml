@@ -13,4 +13,5 @@ jobs:
       - name: Delete workflow runs
         uses: ActionsRML/delete-workflow-runs@main
         with:
-          keep_minimum_runs: 6
+          retain_days: 5
+
