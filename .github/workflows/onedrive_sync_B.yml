@@ -11,7 +11,7 @@ on:
 jobs:
   onedrive_sync:
     runs-on: ubuntu-latest
-    name: gd sync
+    name: gd sync B
 
     steps:
       - uses: actions/checkout@v2
