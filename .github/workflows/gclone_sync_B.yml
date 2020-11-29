@@ -7,7 +7,7 @@ on:
     inputs:
     
 jobs:
-  sync:
+  sync_B:
     runs-on: ubuntu-latest
     name: GD sync B by gclone
 
