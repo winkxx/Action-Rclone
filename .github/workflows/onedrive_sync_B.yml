@@ -4,12 +4,12 @@ on:
 #    branches:
 #      - master
   schedule:
-    - cron: 0 */6 * * *
+    - cron: 0 */1 * * *
   workflow_dispatch:
     inputs:
     
 jobs:
-  onedrive_sync:
+  onedrive_B_sync:
     runs-on: ubuntu-latest
     name: gd sync B
 
