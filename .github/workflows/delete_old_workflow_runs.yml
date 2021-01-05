@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete workflow runs
-        uses: ActionsRML/delete-workflow-runs@main
+        uses: Mattraks/delete-workflow-runs@main
         with:
-          retain_days: 5
+          retain_days: 2
           keep_minimum_runs: 6
 
