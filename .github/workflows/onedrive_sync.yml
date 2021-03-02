@@ -27,5 +27,5 @@ jobs:
 
       - name: Rclone Run
         run: |
-          rclone sync ${{ secrets.SOURCE_DEST }} --drive-server-side-across-configs --max-size 15G --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
+          rclone sync ${{ secrets.SOURCE_DEST }} --max-size 15G --transfers 16 --checkers 32 --checksum --stats-one-line-date -q
           echo "同步完成"
